@@ -1,15 +1,8 @@
 #ifndef TEST_H_INCLUDED
 #define TEST_H_INCLUDED
+#include<string>
 
 using namespace std;
-
-
-/*
-* By Tomoloju Victor.
-*Email-> tomoloju45@gmail.com
-*
-*OPEN SOURCE...................
-*/
 int dis_find(char *t , const char *a) {
 
   unsigned init(0),
@@ -49,28 +42,22 @@ int dis_find(char *t , const char *a) {
         t[i] = ' ';
 
     }
+int stop = strlen(t) - temp;
 
-    char *ptr = NULL;
-    size_t siz =  (strlen(t)-5)+1;
-    ptr = new char[siz];
 
-    int b = temp+1;
-    for(int a =0 ; a<siz ; ++a , ++b){
+int j = temp+1;
+    for(int i = 0 ;i<strlen(t) ; ++i,++j){
 
-        ptr[a] = t[b];
+
+        t[i] = t[j];
+
     }
-    int l = 0;
 
-for(int c =0; c<siz; ++c,++l){
-
-    t[c] = ptr[c];
-}
-  t[l+1] = NULL;
-  delete [] ptr;
+t[stop] = '\0';
 
 return temp;
-
   }
+
   else {
     return 0;
   }
@@ -78,125 +65,134 @@ return temp;
 
 }
 
-void get_creds(char *p , char *con , int num){
+void get_creds(char *p , char *con , unsigned int num) {
 
-///int def = num;
-  short max_l = 30*num;
-
-char store_de[max_l];
+  ///int def = num;
+  unsigned int max_l = 30 * num;
 
 
-int store_las=0;
-char open[] = "open";
-char closed[] = "secured";
-
-while(num){
-
-if(dis_find(p , con)){
+  char store_de[max_l];
 
 
-     if(p[0] == '0'){
+  unsigned int store_las = 0;
+  char openn[] = "open";
+  char closed[] = "secured";
+
+  while (num) {
 
 
-            int y = 0;
-            int n = store_las;
-        for(int a = n; y<strlen(open) ; ++a,++y){
-            store_de[a] = open[y];
+cout<<num<<endl;
+    if (dis_find(p , con)) {
 
-            ++store_las;
+
+
+
+
+      if (p[0] == '0') {
+
+
+        unsigned int y = 0;
+        unsigned int n = store_las;
+        for (unsigned int a = n; y < strlen(openn) ; ++a, ++y) {
+          store_de[a] = openn[y];
+
+          ++store_las;
         }
-     }
-     else if(p[0] > '0'){
+      }
+      else if (p[0] > '0') {
 
-            int y = 0;
-            int n = store_las;
-        for(int a = n; y<strlen(closed) ; ++a,++y){
-            store_de[a] = closed[y];
-            ++store_las;
+        unsigned int y = 0;
+        unsigned int n = store_las;
+        for (unsigned int a = n; y < strlen(closed) ; ++a, ++y) {
+          store_de[a] = closed[y];
+          ++store_las;
         }
-     }
+      }
 
-     store_de[store_las] = ' ';
-     store_las+=1;
+      store_de[store_las] = ' ';
+      store_las += 1;
 
-for(int i =0 ; i<strlen(p); ++i)
-{
-if(p[i] == '"'){
+      for (unsigned int i = 0 ; i < strlen(p); ++i)
+      {
+        if (p[i] == '"') {
 
-for(int t = i+1 ; t<strlen(p); ++t){
+          for (unsigned int t = i + 1 ; t < strlen(p); ++t) {
 
-    if(p[t] == '"'){
-        break;
-    }
-    else{
-    store_de[store_las] = p[t];
-    ++store_las;
-    }
-}
-
-
-break;
-}
-
-}   ///
-store_de[store_las] = '\n';
-store_las+=1;
-store_de[store_las]='\0';
-
-
-}
-
-else{
-
-    break;
-}
-
---num;
-
-}
-
-for(int i = 0; i<strlen(store_de) ; ++i){
-    p[i] = store_de[i];
-}
-p[strlen(store_de)+1] = '\0';
-
-}   ///
-
-
-void extract(char *extr , int pos){
-
-char temp_store[40];
-short temp = 1;
-
-for(int i=0 ; i<strlen(extr) ;++i){
-  if(extr[i] == '\n'){
-    ++temp;
-  }
-
-  if(temp == pos){
-
-  int get = i+1;
-  if(temp == 1){
-    get = 0;
-  }
-    int t = 0;
-    for(int p = get; p<strlen(extr); ++p,++t){
-            if(extr[p] == '\n'){
-                break;
+            if (p[t] == '"') {
+              break;
             }
-        temp_store[t] = extr[p];
+            else {
+              store_de[store_las] = p[t];
+              ++store_las;
+            }
+          }
+
+
+          break;
+        }
+
+      }   ///
+      store_de[store_las] = '\n';
+      store_las += 1;
+      store_de[store_las] = '\0';
+
     }
-temp_store[t] = '\0';
-    break;
+
+
+    else {
+      break;
+    }
+    --num;
+
   }
 
-}
+  p[0] = NULL;
 
-for(int i =0; i<strlen(temp_store) ; ++i){
+  for (unsigned int i = 0; i < strlen(store_de) ; ++i) {
+    p[i] = store_de[i];
+  }
+  p[strlen(store_de)] = '\0';
+
+
+
+}   ///
+
+
+void extract(char *extr , int pos) {
+
+  char temp_store[40];
+
+
+  short temp = 1;
+
+  for (unsigned int i = 0 ; i < strlen(extr) ; ++i) {
+    if (extr[i] == '\n') {
+      ++temp;
+    }
+
+    if (temp == pos) {
+
+      unsigned int gett = i + 1;
+      if (temp == 1) {
+        gett = 0;
+      }
+      unsigned int t = 0;
+      for (unsigned int p = gett; p < strlen(extr); ++p, ++t) {
+        if (extr[p] == '\n') {
+          break;
+        }
+        temp_store[t] = extr[p];
+      }
+      temp_store[t] = '\0';
+      break;
+    }
+
+  }
+
+  for (unsigned int i = 0; i < strlen(temp_store) ; ++i) {
     extr[i] = temp_store[i];
-}
-extr[strlen(temp_store)] = '\0';
+  }
+  extr[strlen(temp_store)] = '\0';
 
 }
-
 #endif // TEST_H_INCLUDED
