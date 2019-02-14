@@ -3,196 +3,182 @@
 #include<string>
 
 using namespace std;
-int dis_find(char *t , const char *a) {
-
-  unsigned init(0),
-           temp(0) , count_t(0);
-
-  for (int i = 0 ; i != strlen(t); ++i) {
-
-    if (a[init] == t[i]) {
 
 
-      temp = i;
 
-      ++init;
-      ++count_t;
+void get_creds(char *t , const char *a , int num){
+    bool yes = false;
+    short secu = 0;
+    int next = 0;
+    int cha = 0;
+
+    while(num){
+
+
+int aa = 0;
+
+    for(int i = next ; aa<strlen(a) ; ++i,++aa){
+        if(t[i] == a[aa]){
+            yes = true;
+            t[i] = ' ';
+            secu = i;
+        }
+
+        else{
+            yes = false;
+        }
+    }
+int j = secu+1;        ///
+
+    for(int i = next ; i<strlen(t) ; ++i , ++j){
+        t[i] = t[j];                                     /// covers up space..
     }
 
-    else {
-      init = 0;
-      count_t = 0;
+secu = next;
+
+if(yes){
+
+    if(t[secu] == '0'){
+        t[secu] = 'O';
+    }
+    else if(t[secu] >= '0'){
+        t[secu] = 'C';
     }
 
-    if (init == strlen(a)) {
-      break;
-    }
+    for(int i =secu+1 ; i<strlen(t); ++i){
 
-    if (i == strlen(t) - 1 && init != strlen(a)) {
-      init = 0;
-      count_t = 0;
-    }
+        if(t[i] == '"'){
 
-  }
-
-  if (init > 0) {
-
-    for(int i=temp ; i>=0 ; --i){
 
         t[i] = ' ';
+        for(int p = i+1; p<strlen(t) ; ++p){
+                 cha = p;
+            if(t[p] == '"'){
+                    t[p] = ' ';
+                break;
+            }
+
+        }
+
+break;
+        }
+
 
     }
-int stop = strlen(t) - temp;
+ ++cha;
 
+ for(int i = cha ; i<strlen(t) ; ++i){
 
-int j = temp+1;
-    for(int i = 0 ;i<strlen(t) ; ++i,++j){
+    if(t[i] == '\n'){
 
-
-        t[i] = t[j];
-
+next = i+1;
+        break;
     }
 
-t[stop] = '\0';
+    else{
+        t[i] =' ';
+    }
+ }
 
-return temp;
-  }
+int j = next-1;    /// -> newline
 
-  else {
-    return 0;
-  }
+/// cha-1 = "...
+ for(int i = cha-1 ; i <strlen(t) ; ++i){
+    t[i] = t[j];
+    ++j;
+
+ }
+next = cha;
+
+
+} ///
+--num;
+    }
+t[next] = '\0';
 
 
 }
 
-void get_creds(char *p , char *con , unsigned int num) {
+void extract(char *ptr , int num , char *net){
 
-  ///int def = num;
-  unsigned int max_l = 30 * num;
+for(int i = 0  ; i<strlen(ptr) ; ++i){
 
+    if(num == 1){
 
-  char store_de[max_l];
+        for(int p = 0; p<strlen(ptr) ; ++p){
 
-
-  unsigned int store_las = 0;
-  char openn[] = "open";
-  char closed[] = "secured";
-
-  while (num) {
-
-
-cout<<num<<endl;
-    if (dis_find(p , con)) {
-
-
-
-
-
-      if (p[0] == '0') {
-
-
-        unsigned int y = 0;
-        unsigned int n = store_las;
-        for (unsigned int a = n; y < strlen(openn) ; ++a, ++y) {
-          store_de[a] = openn[y];
-
-          ++store_las;
-        }
-      }
-      else if (p[0] > '0') {
-
-        unsigned int y = 0;
-        unsigned int n = store_las;
-        for (unsigned int a = n; y < strlen(closed) ; ++a, ++y) {
-          store_de[a] = closed[y];
-          ++store_las;
-        }
-      }
-
-      store_de[store_las] = ' ';
-      store_las += 1;
-
-      for (unsigned int i = 0 ; i < strlen(p); ++i)
-      {
-        if (p[i] == '"') {
-
-          for (unsigned int t = i + 1 ; t < strlen(p); ++t) {
-
-            if (p[t] == '"') {
-              break;
+            if(ptr[p] == '\n'){
+                    ptr[p] = '\0';
+                break;
             }
-            else {
-              store_de[store_las] = p[t];
-              ++store_las;
+
             }
-          }
 
+        break;
+    }   ///
 
-          break;
+    else if (num>1){
+
+int count_t = 1;
+for(int i = 0 ; i<strlen(ptr) ; ++i){
+
+if(ptr[i] == '\n'){
+++count_t;
+
+if(count_t == num){
+
+        int ff = i+1;
+
+        for(int t = 0; t<strlen(ptr) ; ++t , ++ff){
+            ptr[t] = ptr[ff];
         }
-
-      }   ///
-      store_de[store_las] = '\n';
-      store_las += 1;
-      store_de[store_las] = '\0';
-
-    }
-
-
-    else {
-      break;
-    }
-    --num;
-
-  }
-
-  p[0] = NULL;
-
-  for (unsigned int i = 0; i < strlen(store_de) ; ++i) {
-    p[i] = store_de[i];
-  }
-  p[strlen(store_de)] = '\0';
-
-
-
-}   ///
-
-
-void extract(char *extr , int pos) {
-
-  char temp_store[40];
-
-
-  short temp = 1;
-
-  for (unsigned int i = 0 ; i < strlen(extr) ; ++i) {
-    if (extr[i] == '\n') {
-      ++temp;
-    }
-
-    if (temp == pos) {
-
-      unsigned int gett = i + 1;
-      if (temp == 1) {
-        gett = 0;
-      }
-      unsigned int t = 0;
-      for (unsigned int p = gett; p < strlen(extr); ++p, ++t) {
-        if (extr[p] == '\n') {
-          break;
+        for(int t = 0; t<strlen(ptr) ; ++t){
+            if(ptr[t] == '\n'){
+                ptr[t] = '\0';
+                break;
+            }
         }
-        temp_store[t] = extr[p];
-      }
-      temp_store[t] = '\0';
-      break;
-    }
+    break;
+}
 
-  }
+} ///
 
-  for (unsigned int i = 0; i < strlen(temp_store) ; ++i) {
-    extr[i] = temp_store[i];
-  }
-  extr[strlen(temp_store)] = '\0';
+
+} ///
+
+break;
+
+    } ///
 
 }
+
+if(ptr[0] == 'C'){
+
+    strcpy(net , "CLOSED");
+}
+else if(ptr[0] == 'O'){
+    strcpy(net , "OPEN");
+}
+
+for(int i  = 0 ; i< strlen(ptr) ; ++i){
+int ff;
+
+if(ptr[i] == ' ' && ptr[i-1] == ','){
+    ff = i;
+    ++ff;
+
+    for(int t = 0 ; t<strlen(ptr) ; ++t,++ff){
+    ptr[t] = ptr[ff];
+}
+    break;
+}
+
+}
+
+
+
+}  ///
+
+
+
 #endif // TEST_H_INCLUDED
